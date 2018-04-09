@@ -29,6 +29,8 @@ public class View extends JPanel{
     private JPanel panel;
     private JButton toggleRunButton;
     private JButton reverseButton;
+    private JButton fireButton;
+    private JButton jumpButton;
     private Action drawAction;
     private Action reverseAction;	    
 
@@ -156,5 +158,11 @@ public class View extends JPanel{
 	}
 	public JButton getReverseButton(){
 		return reverseButton;
+	}
+	public JButton getFireButton(){
+		return fireButton;
+	}
+	public JButton getJumpButton(){
+		return jumpButton;
 	}
 }

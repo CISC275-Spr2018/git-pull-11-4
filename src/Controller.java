@@ -17,8 +17,12 @@ public class Controller {
 	
 	private JButton toggleRunButton;
     private JButton reverseButton;
+    private JButton fireButton;
+    private JButton jumpButton;
     private ActionListener drawActionEvent;
     private ActionListener reverseActionEvent;
+    private ActionListener fireActionEvent;
+    private ActionListener jumpActionEvent;
     private Action drawAction;
     private Timer t;
 	
@@ -28,6 +32,9 @@ public class Controller {
 		view.makeFrame();
 		toggleRunButton = view.getToggleRunButton();
 		reverseButton = view.getReverseButton();
+		fireButton = view.getFireButton();
+		jumpButton = view.getJumpButton();
+		//
 		drawActionEvent = new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
@@ -52,9 +59,24 @@ public class Controller {
 			}
     		
     	};
+    	fireActionEvent = new ActionListener(){
+    		@Override
+    		public void actionPerformed(ActionEvent e) {
+				System.out.println("You pressed the fire button");
+				//do fire activities
+    		}
+    	};
+    	jumpActionEvent = new ActionListener(){
+    		@Override
+    		public void actionPerformed(ActionEvent e) {
+				System.out.println("You pressed the jump button");
+				//do jump activities
+    		}
+    	};
     	toggleRunButton.addActionListener(drawActionEvent);
     	reverseButton.addActionListener(reverseActionEvent);
-    	
+    	fireButton.addActionListener(fireActionEvent);
+    	jumpButton.addActionListener(jumpActionEvent);
 	}
 	
     //run the simulation
@@ -79,14 +101,6 @@ public class Controller {
 				t = new Timer(view.getDrawDelay(),drawAction);
 				t.start();
 			}
-			
 		});
-		/*for(int i = 0; i < 1000; i++)
-		{	
-			//increment the x and y coordinates, alter direction if necessary
-			model.updateLocationAndDirection();
-			System.out.println("Direction: " + model.getDirect() + "   X: " + model.getX() + " Y: " + model.getY());
-			view.update(model.getX(), model.getY(), model.getDirect()); //Updates the view
-		}*/
 	}
 }
