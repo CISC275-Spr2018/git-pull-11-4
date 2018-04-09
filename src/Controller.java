@@ -75,8 +75,8 @@ public class Controller {
     	};
     	toggleRunButton.addActionListener(drawActionEvent);
     	reverseButton.addActionListener(reverseActionEvent);
-    	fireButton.addActionListener(fireActionEvent);
-    	jumpButton.addActionListener(jumpActionEvent);
+    	//fireButton.addActionListener(fireActionEvent);
+    	//jumpButton.addActionListener(jumpActionEvent);
 	}
 	
     //run the simulation
