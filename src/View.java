@@ -16,7 +16,10 @@ import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 
 public class View extends JPanel{
-	final private int frameCount = 10;
+	private int frameCount;
+	final private int frameCountForward = 10;
+	final private int frameCountJump = 8;
+	final private int frameCountFire = 4;
 	final private int frameStartSize = 600;
 	final private int drawDelay = 15;//In msec(15 seems to look the best)
 	private int picNum = 0;
@@ -41,6 +44,8 @@ public class View extends JPanel{
     
   //Constructor: get image, segment and store in array
     public View(){
+    	//set frame count appropriately if jumping or shooting
+    	frameCount = frameCountForward;
     	BufferedImage img = createImage();
     	pics = new BufferedImage[10];
     	for(int i = 0; i < frameCount; i++)
@@ -88,11 +93,13 @@ public class View extends JPanel{
 
     //Override this JPanel's paint method to cycle through picture array and draw images
     public void paint(Graphics g) {
+    	//set framecount
+    	frameCount = frameCountForward;
     	picNum = (picNum + 1) % frameCount;
     	BufferedImage img = changeImage();
     	g.drawImage(pics[picNum], xloc, yloc, Color.gray, this);
     		
-        for(int i = 0; i < frameCount; i++)
+        for(int i = 0; i < frameCountFire; i++)
         	pics[i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     } 
     
