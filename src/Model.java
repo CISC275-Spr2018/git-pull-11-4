@@ -1,3 +1,4 @@
+package pkgLab8;
 import java.awt.event.KeyEvent;
 
 import javax.swing.Timer;
@@ -19,7 +20,7 @@ public class Model {
 	private int height;//Frame-height
 	private int imageWidth;
 	private int imageHeight;
-	private int x;
+	private int x = 0;
 	private int y = 38; //defined here to give space for the buttons
 	private Direction direction;
 	
@@ -69,18 +70,16 @@ public class Model {
 			moveDown();
 			break;
 		case 32://SpaceBar
+			//Jump
 			jumping = true;
-			jump();
 			break;
 		case 70://F-key
 			//Fire
 			firing = true;
-			fire();
 			break;
 		default:
 			break;
 		}
-		//t.start();
 		return direction;
 	}
 	
@@ -103,28 +102,23 @@ public class Model {
 			running = false;
 			down = false;
 			break;
-		case 32://SpaceBar; Jump
+		case 32://SpaceBar
+			//Jump
 			jumping = false;
 			break;
-		case 70://F-key; Fire
+		case 70://F-key
+			//Fire
 			firing = false;
 			break;
 		default:
 			break;
 		}
-	}
-	
-	public void jump(){
-		System.out.println("JUMP");
-	}
-	
-	public void fire(){
-		System.out.println("FIRE");
+		
 	}
 	
 	public void moveLeft(){//Make the 'left' boolean true and all others false
 		//West
-		System.out.println("LEFT");
+		//System.out.println("LEFT");
 		this.direction = Direction.WEST;
 		left = true;
 		right = false;
@@ -133,7 +127,7 @@ public class Model {
 	}	
 	public void moveDown(){//Make the 'down' boolean true and all others false
 		//South
-		System.out.println("DOWN");
+		//System.out.println("DOWN");
 		this.direction = Direction.SOUTH;
 		left = false;
 		right = false;
@@ -142,7 +136,7 @@ public class Model {
 	}
 	public void moveUp(){//Make the 'up' boolean true and all others false
 		//North
-		System.out.println("UP");
+		//System.out.println("UP");
 		this.direction = Direction.NORTH;
 		left = false;
 		right = false;
@@ -151,7 +145,7 @@ public class Model {
 	}
 	public void moveRight(){//Make the 'right' boolean true and all others false
 		//East
-		System.out.println("RIGHT");
+		//System.out.println("RIGHT");
 		this.direction = Direction.EAST;
 		left = false;
 		right = true;
@@ -202,6 +196,10 @@ public class Model {
 		System.out.println("Direction: " + getDirect() + "  xLoc: " + x + " yLoc: " + y);
 	}
 	
+	public void keepMoving(){
+		updateLocation();
+	}
+	
 	//Getters
 	
 	public int getX(){	
@@ -222,5 +220,10 @@ public class Model {
 	public Boolean getFiring(){
 		return firing;
 	}
+	public void setJumpingAndFiring(Boolean jumping, Boolean firing){
+		this.jumping = jumping;
+		this.firing = firing;
+	}
+
 	
 }
