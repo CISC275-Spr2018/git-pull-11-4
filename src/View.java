@@ -1,8 +1,10 @@
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -16,27 +18,29 @@ import javax.swing.JPanel;
 import java.awt.event.ActionEvent;
 
 public class View extends JPanel{
-	private int frameCount;
+	private int frameCount = 10;
 	final private int frameCountForward = 10;
 	final private int frameCountJump = 8;
 	final private int frameCountFire = 4;
 	final private int frameStartSize = 600;
 	final private int drawDelay = 15;//In msec(15 seems to look the best)
 	private int picNum = 0;
-    private BufferedImage[] pics;
+    private BufferedImage[] picsMove;
+    private BufferedImage[] picsJump;
+    private BufferedImage[] picsFire;
     private int xloc = 0;
     private int yloc = 38;
+    //private int counter = 0;
  
     private Direction direction;
     private JFrame frame;
     private JPanel panel;
     private JButton toggleRunButton;
     private JButton reverseButton;
-    private JButton fireButton;
-    private JButton jumpButton;
     private Action drawAction;
     private Action reverseAction;	    
-
+    final int xIncr = 8;//8 
+    final int yIncr = 2;//2 
     final static int frameWidth = 500;//500
     final static int frameHeight = 400;//400
     final static int imageWidth = 165;
@@ -44,12 +48,10 @@ public class View extends JPanel{
     
   //Constructor: get image, segment and store in array
     public View(){
-    	//set frame count appropriately if jumping or shooting
-    	frameCount = frameCountForward;
     	BufferedImage img = createImage();
-    	pics = new BufferedImage[10];
+    	picsMove = new BufferedImage[10];
     	for(int i = 0; i < frameCount; i++)
-    		pics[i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
+    		picsMove[i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     } 
     
     public void makeFrame() {
@@ -60,15 +62,15 @@ public class View extends JPanel{
     	frame.setSize(frameWidth, frameHeight);
     	frame.setVisible(true);
 
-    	panel = new JPanel();
-    	frame.add(panel);
+    	//panel = new JPanel();
+    	//frame.add(panel);
     	toggleRunButton =  new JButton("Go/Pause");
     	reverseButton = new JButton("Reverse");
     	
-    	panel.add(toggleRunButton);
-    	panel.add(reverseButton);
+    	//panel.add(toggleRunButton);
+    	//panel.add(reverseButton);
     	frame.setVisible(true);
-    	panel.setBackground(Color.gray);
+    	//panel.setBackground(Color.gray);
     	
     	frame.repaint();
 		try {
@@ -93,31 +95,29 @@ public class View extends JPanel{
 
     //Override this JPanel's paint method to cycle through picture array and draw images
     public void paint(Graphics g) {
-    	//set framecount
-    	frameCount = frameCountForward;
     	picNum = (picNum + 1) % frameCount;
     	BufferedImage img = changeImage();
-    	g.drawImage(pics[picNum], xloc, yloc, Color.gray, this);
+    	g.drawImage(picsMove[picNum], xloc, yloc, Color.gray, this);
     		
-        for(int i = 0; i < frameCountFire; i++)
-        	pics[i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
+        for(int i = 0; i < frameCount; i++)
+        	picsMove[i] = img.getSubimage(imageWidth*i, 0, imageWidth, imageHeight);
     } 
     
     private BufferedImage changeImage(){
     	BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File("images/orc_forward_southeast.png"));//ORIGINAL LINE********//southeast
-       		if(direction == Direction.NORTHEAST){
-    			bufferedImage = Images.NORTHEAST.getImage();
+    		bufferedImage = ImageIO.read(new File("images/orc_forward_south.png"));//ORIGINAL LINE********//southeast
+       		if(direction == Direction.NORTH){
+    			bufferedImage = Images.MOVE_NORTH.getImage();
     		}
-    		else if(direction == Direction.NORTHWEST){
-    			bufferedImage = Images.NORTHWEST.getImage();
+    		else if(direction == Direction.SOUTH){
+    			bufferedImage = Images.MOVE_SOUTH.getImage();
     		}
-    		else if(direction == Direction.SOUTHEAST){
-    			bufferedImage = Images.SOUTHEAST.getImage();
+    		else if(direction == Direction.EAST){
+    			bufferedImage = Images.MOVE_EAST.getImage();
     		}
-    		else if(direction == Direction.SOUTHWEST){
-    			bufferedImage = Images.SOUTHWEST.getImage();
+    		else if(direction == Direction.WEST){
+    			bufferedImage = Images.MOVE_WEST.getImage();
     		}
     		return bufferedImage;
     	} catch (IOException e) {
@@ -130,7 +130,7 @@ public class View extends JPanel{
     private BufferedImage createImage(){
     	BufferedImage bufferedImage;
     	try {
-    		bufferedImage = ImageIO.read(new File("images/orc_forward_southeast.png"));
+    		bufferedImage = ImageIO.read(new File("images/orc_forward_south.png"));
     		return bufferedImage;
     	} catch (IOException e) {
     		e.printStackTrace();
@@ -166,10 +166,10 @@ public class View extends JPanel{
 	public JButton getReverseButton(){
 		return reverseButton;
 	}
-	public JButton getFireButton(){
-		return fireButton;
+	public JPanel getPanel(){
+		return panel;
 	}
-	public JButton getJumpButton(){
-		return jumpButton;
+	public JFrame getFrame(){
+		return frame;
 	}
 }
