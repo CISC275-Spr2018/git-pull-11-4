@@ -33,10 +33,12 @@ public class View extends JPanel{
     //private int counter = 0;
  
     private Direction direction;
+    private boolean jumping;
+    private boolean firing;
     private JFrame frame;
     private JPanel panel;
-    private JButton toggleRunButton;
-    private JButton reverseButton;
+    private JButton jumpButton;
+    private JButton fireButton;
     private Action drawAction;
     private Action reverseAction;	    
     final int xIncr = 8;//8 
@@ -62,15 +64,15 @@ public class View extends JPanel{
     	frame.setSize(frameWidth, frameHeight);
     	frame.setVisible(true);
 
-    	//panel = new JPanel();
-    	//frame.add(panel);
-    	toggleRunButton =  new JButton("Go/Pause");
-    	reverseButton = new JButton("Reverse");
+    	panel = new JPanel();
+    	frame.add(panel);
+    	//jumpButton =  new JButton("Jump");
+    	//fireButton = new JButton("Fire");
     	
-    	//panel.add(toggleRunButton);
-    	//panel.add(reverseButton);
+    	//panel.add(jumpButton);
+    	//panel.add(fireButton);
     	frame.setVisible(true);
-    	//panel.setBackground(Color.gray);
+    	panel.setBackground(Color.gray);
     	
     	frame.repaint();
 		try {
@@ -80,10 +82,12 @@ public class View extends JPanel{
 		}
     }
     
-    public void update(int x, int y, Direction direction){
+    public void update(int x, int y, Direction direction, boolean jump, boolean fire){
     	this.xloc = x;
     	this.yloc = y;
     	this.direction = direction;
+    	this.jumping = jump;
+    	this.firing = fire;
     	
     	frame.repaint();
 		try {
@@ -95,6 +99,15 @@ public class View extends JPanel{
 
     //Override this JPanel's paint method to cycle through picture array and draw images
     public void paint(Graphics g) {
+    	if (jumping){
+    		frameCount = frameCountJump;
+    	}
+    	else if (firing){
+    		frameCount = frameCountFire;
+    	}
+    	else {
+    		frameCount= frameCountForward;
+    	}
     	picNum = (picNum + 1) % frameCount;
     	BufferedImage img = changeImage();
     	g.drawImage(picsMove[picNum], xloc, yloc, Color.gray, this);
@@ -108,16 +121,48 @@ public class View extends JPanel{
     	try {
     		bufferedImage = ImageIO.read(new File("images/orc_forward_south.png"));//ORIGINAL LINE********//southeast
        		if(direction == Direction.NORTH){
-    			bufferedImage = Images.MOVE_NORTH.getImage();
+       			if (jumping){
+       				bufferedImage = Images.JUMP_NORTH.getImage();
+       			}
+       			else if (firing){
+       				bufferedImage = Images.FIRE_NORTH.getImage();
+       			}
+       			else{
+       				bufferedImage = Images.MOVE_NORTH.getImage();
+       			}
     		}
-    		else if(direction == Direction.SOUTH){
-    			bufferedImage = Images.MOVE_SOUTH.getImage();
+       		else if(direction == Direction.SOUTH){
+       			if (jumping){
+       				bufferedImage = Images.JUMP_SOUTH.getImage();
+       			}
+       			else if (firing){
+       				bufferedImage = Images.FIRE_SOUTH.getImage();
+       			}
+       			else{
+       				bufferedImage = Images.MOVE_SOUTH.getImage();
+       			}
     		}
-    		else if(direction == Direction.EAST){
-    			bufferedImage = Images.MOVE_EAST.getImage();
+       		else if(direction == Direction.EAST){
+       			if (jumping){
+       				bufferedImage = Images.JUMP_EAST.getImage();
+       			}
+       			else if (firing){
+       				bufferedImage = Images.FIRE_EAST.getImage();
+       			}
+       			else{
+       				bufferedImage = Images.MOVE_EAST.getImage();
+       			}
     		}
-    		else if(direction == Direction.WEST){
-    			bufferedImage = Images.MOVE_WEST.getImage();
+       		else if(direction == Direction.WEST){
+       			if (jumping){
+       				bufferedImage = Images.JUMP_WEST.getImage();
+       			}
+       			else if (firing){
+       				bufferedImage = Images.FIRE_WEST.getImage();
+       			}
+       			else{
+       				bufferedImage = Images.MOVE_WEST.getImage();
+       			}
     		}
     		return bufferedImage;
     	} catch (IOException e) {
@@ -160,11 +205,11 @@ public class View extends JPanel{
 	public Action getReverseAction(){
 		return reverseAction;
 	}
-	public JButton getToggleRunButton(){
-		return toggleRunButton;
+	public JButton jumpButton(){
+		return jumpButton;
 	}
-	public JButton getReverseButton(){
-		return reverseButton;
+	public JButton getFireButton(){
+		return fireButton;
 	}
 	public JPanel getPanel(){
 		return panel;

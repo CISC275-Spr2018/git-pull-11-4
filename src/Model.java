@@ -69,12 +69,13 @@ public class Model {
 			moveDown();
 			break;
 		case 32://SpaceBar
-			//Jump
 			jumping = true;
+			jump();
 			break;
 		case 70://F-key
 			//Fire
 			firing = true;
+			fire();
 			break;
 		default:
 			break;
@@ -102,17 +103,23 @@ public class Model {
 			running = false;
 			down = false;
 			break;
-		case 32://SpaceBar
-			//Jump
+		case 32://SpaceBar; Jump
 			jumping = false;
 			break;
-		case 70://F-key
-			//Fire
+		case 70://F-key; Fire
 			firing = false;
 			break;
 		default:
 			break;
 		}
+	}
+	
+	public void jump(){
+		System.out.println("JUMP");
+	}
+	
+	public void fire(){
+		System.out.println("FIRE");
 	}
 	
 	public void moveLeft(){//Make the 'left' boolean true and all others false

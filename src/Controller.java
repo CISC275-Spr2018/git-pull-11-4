@@ -57,17 +57,17 @@ public class Controller {
 				if(model.getJumping()){//If the animation should be jumping
 					model.updateLocation();//Still want to move
 					System.out.println("Direction: " + model.getDirect() + "   X: " + model.getX() + " Y: " + model.getY());//Still want to print location
-					//view.<jumpingMethod> //Want to call a method to force a full jump animation
+					view.update(model.getX(), model.getY(), model.getDirect(), true, false); //Updates the view
 				}
 				else if(model.getFiring()){
 					model.updateLocation();//Still want to move
 					System.out.println("Direction: " + model.getDirect() + "   X: " + model.getX() + " Y: " + model.getY());//Still want to print location
-					//view.<firingMethod> //Want to call a method to force a full fire animation
+					view.update(model.getX(), model.getY(), model.getDirect(), false, true); //Updates the view
 				}
 				if(model.getRunning()){
 					model.updateLocation();
 					System.out.println("Direction: " + model.getDirect() + "   X: " + model.getX() + " Y: " + model.getY());
-					view.update(model.getX(), model.getY(), model.getDirect()); //Updates the view
+					view.update(model.getX(), model.getY(), model.getDirect(), false, false); //Updates the view
 				}
 				else if(!model.getRunning()){
 					//Don't do anything, the game is paused
