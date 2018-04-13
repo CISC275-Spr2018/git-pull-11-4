@@ -1,3 +1,4 @@
+package pkgLab8;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -53,25 +54,15 @@ public class Controller {
 		drawAction = new AbstractAction(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				//System.out.println(model.getRunning());
-				if(model.getJumping()){//If the animation should be jumping
-					model.updateLocation();//Still want to move
-					System.out.println("Direction: " + model.getDirect() + "   X: " + model.getX() + " Y: " + model.getY());//Still want to print location
-					view.update(model.getX(), model.getY(), model.getDirect(), true, false); //Updates the view
-				}
-				else if(model.getFiring()){
-					model.updateLocation();//Still want to move
-					System.out.println("Direction: " + model.getDirect() + "   X: " + model.getX() + " Y: " + model.getY());//Still want to print location
-					view.update(model.getX(), model.getY(), model.getDirect(), false, true); //Updates the view
-				}
 				if(model.getRunning()){
-					model.updateLocation();
-					System.out.println("Direction: " + model.getDirect() + "   X: " + model.getX() + " Y: " + model.getY());
-					view.update(model.getX(), model.getY(), model.getDirect(), false, false); //Updates the view
+					if(!model.getFiring()){
+						model.updateLocation();
+					}
 				}
-				else if(!model.getRunning()){
-					//Don't do anything, the game is paused
-				}
+					
+				
+				view.update(model.getX(), model.getY(), model.getDirect(), model.getJumping(), model.getFiring(), model.getRunning());
+
 			}
     	 };
 		EventQueue.invokeLater(new Runnable(){
