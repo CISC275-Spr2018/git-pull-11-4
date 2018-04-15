@@ -1,4 +1,3 @@
-package pkgLab8;
 import java.awt.event.KeyEvent;
 
 import javax.swing.Timer;
